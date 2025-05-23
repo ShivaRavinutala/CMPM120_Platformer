@@ -27,6 +27,26 @@ class Win extends Phaser.Scene {
         this.title.setOrigin(0.5, 0.5);
         this.title.setPosition(400, 250);
 
+        this.title = this.add.text(160, 160, "Time: "+localStorage.getItem('time'), {
+            fontFamily: 'Trebuchet MS',
+            fontSize: '20px',
+            color: '#ffffff',
+            fontStyle: 'bold',
+        });
+
+        this.title.setOrigin(0.5, 0.5);
+        this.title.setPosition(400, 400);
+
+        this.title = this.add.text(160, 160, "Money Collected: "+localStorage.getItem('moneyCollected'), {
+            fontFamily: 'Trebuchet MS',
+            fontSize: '20px',
+            color: '#ffffff',
+            fontStyle: 'bold',
+        });
+
+        this.title.setOrigin(0.5, 0.5);
+        this.title.setPosition(400, 440);
+
         this.keyPressText = this.add.text(160, 160, "Press Space to Continue", {
             fontFamily: 'Trebuchet MS',
             fontSize: '40px',

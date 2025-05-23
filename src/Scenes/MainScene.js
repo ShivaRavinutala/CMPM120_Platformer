@@ -23,6 +23,8 @@ class KingArthursDungeon extends Phaser.Scene {
         this.teleportCooldown = 0;
 
         this.moneyCount = 0;
+        this.frameCount = 0;
+        this.stopwatchTime = 0;
     }
 
     create() {
@@ -107,13 +109,23 @@ class KingArthursDungeon extends Phaser.Scene {
         this.healthText.setOrigin(1, 0); // Align text to top-right
         this.healthText.x = rightX;
 
+        this.timeText = this.add.text(0, 64, 'Time: ' + 0, {
+            fontFamily: 'Trebuchet MS',
+            fontSize: '20px',
+            fill: '#ffffff'
+        });
+        this.timeText.setScrollFactor(0);
+        this.timeText.setDepth(50);
+        this.timeText.setOrigin(1, 0); // Align text to top-right
+        this.timeText.x = rightX;
+
         // Background Rectangle behind both
         const maxTextWidth = Math.max(this.moneyText.width, this.healthText.width);
         this.bg = this.add.rectangle(
             this.scale.width - maxTextWidth - padding - 10, // 10px padding inside the box
             this.moneyText.y - 5,
             maxTextWidth + 20,
-            this.moneyText.height + this.healthText.height + 14,
+            this.moneyText.height + this.healthText.height + this.timeText.height+ 14,
             0x000000,
             0.8
         ).setOrigin(0);
@@ -216,8 +228,12 @@ class KingArthursDungeon extends Phaser.Scene {
         this.isMuted = false;
     }
 
-    update() {
+    update(time, delta) {
+        this.frameCount++;
         this.onLadder = false;
+
+        const deltaSec = delta / 1000;
+        this.stopwatchTime += deltaSec;
 
         const playerTileClimbablesX = this.climbables.worldToTileX(my.sprite.player.x);
         const playerTileClimbablesY = this.climbables.worldToTileY(my.sprite.player.y);
@@ -374,8 +390,12 @@ class KingArthursDungeon extends Phaser.Scene {
 
         if (tileEnd) {
             this.soundtrack.stop();
+            localStorage.setItem('time', ''+(Math.round(this.stopwatchTime * 100) / 100));
+            localStorage.setItem('moneyCollected', ''+this.moneyCount);
             this.scene.start("winScene");
         }
+
+        this.timeText.setText('Time: ' + (Math.round(this.stopwatchTime)));
     }
 
     warpEffect() {
@@ -417,10 +437,11 @@ class KingArthursDungeon extends Phaser.Scene {
         // Set X to right-aligned
         this.moneyText.x = rightX;
         this.healthText.x = rightX;
+        this.timeText.x = rightX;
 
         // Calculate new background width/height
-        const maxTextWidth = Math.max(this.moneyText.width, this.healthText.width);
-        const totalHeight = this.moneyText.height + this.healthText.height + 14;
+        const maxTextWidth = Math.max(this.moneyText.width, this.healthText.width, this.timeText.width);
+        const totalHeight = this.moneyText.height + this.healthText.height + this.timeText.height + 14;
 
         this.bg.setSize(maxTextWidth + innerPadding * 2, totalHeight);
         this.bg.setPosition(
