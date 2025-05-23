@@ -27,25 +27,35 @@ class Win extends Phaser.Scene {
         this.title.setOrigin(0.5, 0.5);
         this.title.setPosition(400, 250);
 
-        this.title = this.add.text(160, 160, "Time: "+localStorage.getItem('time'), {
+        this.timeText = this.add.text(160, 160, "Time: "+localStorage.getItem('time'), {
             fontFamily: 'Trebuchet MS',
-            fontSize: '20px',
+            fontSize: '15px',
             color: '#ffffff',
             fontStyle: 'bold',
         });
 
-        this.title.setOrigin(0.5, 0.5);
-        this.title.setPosition(400, 400);
+        this.timeText.setOrigin(0.5, 0.5);
+        this.timeText.setPosition(400, 350);
 
-        this.title = this.add.text(160, 160, "Money Collected: "+localStorage.getItem('moneyCollected'), {
+        this.fastestTimeText = this.add.text(160, 160, "Fastest Time: "+localStorage.getItem('fastestTime'), {
             fontFamily: 'Trebuchet MS',
-            fontSize: '20px',
+            fontSize: '15px',
             color: '#ffffff',
             fontStyle: 'bold',
         });
 
-        this.title.setOrigin(0.5, 0.5);
-        this.title.setPosition(400, 440);
+        this.fastestTimeText.setOrigin(0.5, 0.5);
+        this.fastestTimeText.setPosition(400, 380);
+
+        this.moneyCollectedText = this.add.text(160, 160, "Money Collected: £"+localStorage.getItem('moneyCollected'), {
+            fontFamily: 'Trebuchet MS',
+            fontSize: '15px',
+            color: '#ffffff',
+            fontStyle: 'bold',
+        });
+
+        this.moneyCollectedText.setOrigin(0.5, 0.5);
+        this.moneyCollectedText.setPosition(400, 410);
 
         this.keyPressText = this.add.text(160, 160, "Press Space to Continue", {
             fontFamily: 'Trebuchet MS',

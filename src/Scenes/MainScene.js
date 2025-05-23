@@ -25,6 +25,8 @@ class KingArthursDungeon extends Phaser.Scene {
         this.moneyCount = 0;
         this.frameCount = 0;
         this.stopwatchTime = 0;
+
+        this.fastestTime = 0;
     }
 
     create() {
@@ -226,6 +228,8 @@ class KingArthursDungeon extends Phaser.Scene {
         this.soundtrack.play();
 
         this.isMuted = false;
+
+        this.fastestTime = localStorage.getItem('fastestTime');
     }
 
     update(time, delta) {
@@ -391,6 +395,9 @@ class KingArthursDungeon extends Phaser.Scene {
         if (tileEnd) {
             this.soundtrack.stop();
             localStorage.setItem('time', ''+(Math.round(this.stopwatchTime * 100) / 100));
+            if ((!this.fastestTime) || (this.fastestTime > (Math.round(this.stopwatchTime * 100) / 100))) {
+                localStorage.setItem('fastestTime', ''+(Math.round(this.stopwatchTime * 100) / 100));
+            }
             localStorage.setItem('moneyCollected', ''+this.moneyCount);
             this.scene.start("winScene");
         }
